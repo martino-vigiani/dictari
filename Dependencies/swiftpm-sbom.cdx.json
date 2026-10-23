@@ -1,0 +1,295 @@
+{
+  "bomFormat" : "CycloneDX",
+  "components" : [
+    {
+      "bom-ref" : "swiftpm:fluidaudio@0.17.7#503b4bd1bbf7220882de39fe8ae6716aae4132da",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/FluidInference/FluidAudio#503b4bd1bbf7220882de39fe8ae6716aae4132da"
+        }
+      ],
+      "name" : "fluidaudio",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "direct"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "503b4bd1bbf7220882de39fe8ae6716aae4132da"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/FluidInference/FluidAudio"
+        }
+      ],
+      "type" : "library",
+      "version" : "0.17.7"
+    },
+    {
+      "bom-ref" : "swiftpm:sparkle@2.10.0#eef1a539a373c1f1a320624b1130fc5de7b2e100",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/sparkle-project/Sparkle#eef1a539a373c1f1a320624b1130fc5de7b2e100"
+        }
+      ],
+      "name" : "sparkle",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "direct"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "eef1a539a373c1f1a320624b1130fc5de7b2e100"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/sparkle-project/Sparkle"
+        }
+      ],
+      "type" : "library",
+      "version" : "2.10.0"
+    },
+    {
+      "bom-ref" : "swiftpm:swift-argument-parser@1.8.2#6a52f3251125d74daf04fcbd5e6f08a75d074382",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/apple/swift-argument-parser.git#6a52f3251125d74daf04fcbd5e6f08a75d074382"
+        }
+      ],
+      "name" : "swift-argument-parser",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "transitive"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "6a52f3251125d74daf04fcbd5e6f08a75d074382"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/apple/swift-argument-parser.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "1.8.2"
+    },
+    {
+      "bom-ref" : "swiftpm:swift-asn1@1.7.3#3b6410f7dee09eb33cdd26260c5fd47fda19b0e2",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/apple/swift-asn1.git#3b6410f7dee09eb33cdd26260c5fd47fda19b0e2"
+        }
+      ],
+      "name" : "swift-asn1",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "transitive"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "3b6410f7dee09eb33cdd26260c5fd47fda19b0e2"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/apple/swift-asn1.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "1.7.3"
+    },
+    {
+      "bom-ref" : "swiftpm:swift-collections@1.7.3#35a1edcb8ebd2bfe251d587f0b69e62af28f508c",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/apple/swift-collections.git#35a1edcb8ebd2bfe251d587f0b69e62af28f508c"
+        }
+      ],
+      "name" : "swift-collections",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "transitive"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "35a1edcb8ebd2bfe251d587f0b69e62af28f508c"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/apple/swift-collections.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "1.7.3"
+    },
+    {
+      "bom-ref" : "swiftpm:swift-crypto@4.5.2#da9d28d69ebe3894b18376c8f2395c2f37b8448f",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/apple/swift-crypto.git#da9d28d69ebe3894b18376c8f2395c2f37b8448f"
+        }
+      ],
+      "name" : "swift-crypto",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "transitive"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "da9d28d69ebe3894b18376c8f2395c2f37b8448f"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/apple/swift-crypto.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "4.5.2"
+    },
+    {
+      "bom-ref" : "swiftpm:swift-jinja@2.5.1#4588064a20f3fc093c95f2f7d3359999bf30cae5",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/huggingface/swift-jinja.git#4588064a20f3fc093c95f2f7d3359999bf30cae5"
+        }
+      ],
+      "name" : "swift-jinja",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "transitive"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "4588064a20f3fc093c95f2f7d3359999bf30cae5"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/huggingface/swift-jinja.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "2.5.1"
+    },
+    {
+      "bom-ref" : "swiftpm:swift-transformers@1.1.9#150169bfba0889c229a2ce7494cf8949f18e6906",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/huggingface/swift-transformers.git#150169bfba0889c229a2ce7494cf8949f18e6906"
+        }
+      ],
+      "name" : "swift-transformers",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "direct"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "150169bfba0889c229a2ce7494cf8949f18e6906"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/huggingface/swift-transformers.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "1.1.9"
+    },
+    {
+      "bom-ref" : "swiftpm:whisperkit@0.18.0#e2adabbe7d98dc4d0ab9a5b75424ecc42a9cdbef",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/argmaxinc/WhisperKit#e2adabbe7d98dc4d0ab9a5b75424ecc42a9cdbef"
+        }
+      ],
+      "name" : "whisperkit",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "direct"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "e2adabbe7d98dc4d0ab9a5b75424ecc42a9cdbef"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/argmaxinc/WhisperKit"
+        }
+      ],
+      "type" : "library",
+      "version" : "0.18.0"
+    },
+    {
+      "bom-ref" : "swiftpm:yyjson@0.12.0#8b4a38dc994a110abaec8a400615567bd996105f",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/ibireme/yyjson.git#8b4a38dc994a110abaec8a400615567bd996105f"
+        }
+      ],
+      "name" : "yyjson",
+      "properties" : [
+        {
+          "name" : "dictari:dependency-scope",
+          "value" : "transitive"
+        },
+        {
+          "name" : "dictari:git-revision",
+          "value" : "8b4a38dc994a110abaec8a400615567bd996105f"
+        },
+        {
+          "name" : "dictari:source-location",
+          "value" : "https://github.com/ibireme/yyjson.git"
+        }
+      ],
+      "type" : "library",
+      "version" : "0.12.0"
+    }
+  ],
+  "dependencies" : [
+    {
+      "dependsOn" : [
+        "swiftpm:fluidaudio@0.17.7#503b4bd1bbf7220882de39fe8ae6716aae4132da",
+        "swiftpm:sparkle@2.10.0#eef1a539a373c1f1a320624b1130fc5de7b2e100",
+        "swiftpm:swift-transformers@1.1.9#150169bfba0889c229a2ce7494cf8949f18e6906",
+        "swiftpm:whisperkit@0.18.0#e2adabbe7d98dc4d0ab9a5b75424ecc42a9cdbef"
+      ],
+      "ref" : "application:com.subralabs.Dictari"
+    }
+  ],
+  "metadata" : {
+    "component" : {
+      "bom-ref" : "application:com.subralabs.Dictari",
+      "name" : "Dictari",
+      "type" : "application"
+    },
+    "properties" : [
+      {
+        "name" : "dictari:swiftpm-lock-sha256",
+        "value" : "e0cb0f37c00a0c145ae638e564c139bf7851a56eb505d3b1fb2195a9c4d4640e"
+      },
+      {
+        "name" : "dictari:swiftpm-resolved-format",
+        "value" : "3"
+      }
+    ]
+  },
+  "specVersion" : "1.6",
+  "version" : 1
+}

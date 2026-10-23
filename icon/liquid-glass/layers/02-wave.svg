@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Dictari audio waveform foreground</title>
+  <desc>Eleven isolated white rounded bars on a transparent 1024 by 1024 canvas.</desc>
+  <g fill="#FFFFFF">
+    <rect x="288" y="480" width="28" height="64" rx="14"/>
+    <rect x="330" y="460" width="28" height="104" rx="14"/>
+    <rect x="372" y="440" width="28" height="144" rx="14"/>
+    <rect x="414" y="408" width="28" height="208" rx="14"/>
+    <rect x="456" y="428" width="28" height="168" rx="14"/>
+    <rect x="498" y="390" width="28" height="244" rx="14"/>
+    <rect x="540" y="428" width="28" height="168" rx="14"/>
+    <rect x="582" y="408" width="28" height="208" rx="14"/>
+    <rect x="624" y="440" width="28" height="144" rx="14"/>
+    <rect x="666" y="460" width="28" height="104" rx="14"/>
+    <rect x="708" y="480" width="28" height="64" rx="14"/>
+  </g>
+</svg>

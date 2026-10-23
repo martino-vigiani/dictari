@@ -1,0 +1,169 @@
+name: Dictari
+options:
+  bundleIdPrefix: com.subralabs
+  developmentLanguage: en
+  createIntermediateGroups: true
+  # The generated project is ignored, so materialize the tracked transitive lock after every
+  # generation. Release builds use Xcode's resolved-only flags and verify it again afterward.
+  postGenCommand: ./scripts/swiftpm-freeze.swift install
+  deploymentTarget:
+    macOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    MARKETING_VERSION: "1.1.0"
+    CURRENT_PROJECT_VERSION: "31"
+    PRODUCT_BUNDLE_IDENTIFIER: com.subralabs.Dictari
+    ENABLE_HARDENED_RUNTIME: YES
+    SWIFT_STRICT_CONCURRENCY: complete
+    DEAD_CODE_STRIPPING: YES
+    # UI text lives in Resources/Localizable.xcstrings; scripts/sync-strings.sh refreshes it
+    # from the .stringsdata the compiler emits for every localizable literal.
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+# Signing defaults (ad-hoc) plus an optional, untracked Local.xcconfig at the repository root
+# where a maintainer sets DICTARI_SIGN_IDENTITY. See Local.xcconfig.example.
+configFiles:
+  Debug: Config/Base.xcconfig
+  Release: Config/Base.xcconfig
+packages:
+  WhisperKit:
+    url: https://github.com/argmaxinc/WhisperKit
+    exactVersion: 0.18.0
+  FluidAudio:
+    url: https://github.com/FluidInference/FluidAudio
+    exactVersion: 0.17.7
+  SwiftTransformers:
+    url: https://github.com/huggingface/swift-transformers.git
+    exactVersion: 1.1.9
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    exactVersion: 2.10.0
+targets:
+  Dictari:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/Dictari
+        excludes:
+          - Resources/AppIcon.icon/**
+      - path: Sources/Dictari/Resources/AppIcon.icon
+        type: file
+        buildPhase: resources
+    dependencies:
+      - package: WhisperKit
+      - package: FluidAudio
+      - package: SwiftTransformers
+        product: Hub
+      - package: SwiftTransformers
+        product: Tokenizers
+      # Sparkle is intentionally NOT added to DictariTests below — the test target must
+      # keep building host-less, and it never needs to check for updates.
+      - package: Sparkle
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Dictari/App/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sources/Dictari/App/Dictari.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_PREVIEWS: YES
+        COMBINE_HIDPI_IMAGES: YES
+        # DICTARI_SIGN_IDENTITY defaults to ad-hoc ("-") in Config/Base.xcconfig, so anyone can
+        # build. A maintainer sets their Developer ID in Local.xcconfig: TCC keys Accessibility
+        # and Microphone grants on the designated requirement, so Xcode runs, local installs and
+        # public releases must not alternate certificate classes.
+        CODE_SIGN_IDENTITY: "$(DICTARI_SIGN_IDENTITY)"
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+        OTHER_CODE_SIGN_FLAGS: "--options=runtime"
+  # Host-less on purpose. Dictari is an LSUIElement menu-bar app with no window, and
+  # XCTest could not attach to it as a test host ("the test runner hung before establishing
+  # connection"). Instead the bundle compiles the logic sources directly, so tests run in the
+  # xctest process: no app launch, no event tap, no microphone, no TCC prompts, seconds not
+  # minutes. UI, coordinator and menu-bar code stay out — they need the app to be an app.
+  DictariTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests
+      - path: Sources/Dictari/Writing/TextRefinement.swift
+      - path: Sources/Dictari/Writing/AppWritingRule.swift
+      - path: Sources/Dictari/Writing/SpokenFormatting.swift
+      - path: Sources/Dictari/Library/MediaLibrary.swift
+      - path: Sources/Dictari/Library/MeetingSpeakerAnalyzer.swift
+      - path: Sources/Dictari/Library/MeetingCapture.swift
+      - path: Sources/Dictari/Library/TeamPackage.swift
+      - path: Sources/Dictari/Library/MediaArchive.swift
+      - path: Sources/Dictari/Core/Models.swift
+      - path: Sources/Dictari/Core/SpokenLanguages.swift
+      - path: Sources/Dictari/Core/ConversationPolicy.swift
+      - path: Sources/Dictari/MenuBar/MenuBarPresentation.swift
+      - path: Sources/Dictari/Pill/PillGeometry.swift
+      - path: Sources/Dictari/Pill/PillHostingView.swift
+      - path: Sources/Dictari/Pill/PillWindowRecovery.swift
+      - path: Sources/Dictari/Core/LevelBuffer.swift
+      - path: Sources/Dictari/Core/HistorySearch.swift
+      # Settings search is pure Foundation; the section enum comes with it.
+      - path: Sources/Dictari/Settings/SettingsSection.swift
+      - path: Sources/Dictari/Settings/SettingsSearch.swift
+      - path: Sources/Dictari/Settings/SettingsSearchCatalog.swift
+      - path: Sources/Dictari/Core/HistoryTimeline.swift
+      - path: Sources/Dictari/Core/Stores.swift
+      - path: Sources/Dictari/Core/DictationRecoveryStore.swift
+      - path: Sources/Dictari/Diagnostics/LocalDiagnosticsStore.swift
+      - path: Sources/Dictari/Core/ModelFiles.swift
+      - path: Sources/Dictari/Core/PinnedModelDownloader.swift
+      - path: Sources/Dictari/Resources/ModelIntegrityManifest.json
+        type: file
+        buildPhase: resources
+      - path: Sources/Dictari/Core/TranscriptionEngine.swift
+      - path: Sources/Dictari/Core/TranscriptConfidence.swift
+      - path: Sources/Dictari/Core/UncertainSpanRendering.swift
+      - path: Sources/Dictari/Core/LiveTyping.swift
+      - path: Sources/Dictari/Transcription/WhisperKitEngine.swift
+      - path: Sources/Dictari/Transcription/ParakeetEngine.swift
+      - path: Sources/Dictari/Transcription/ChunkedStreamingSession.swift
+      - path: Sources/Dictari/Transcription/BackgroundTranscriptionSession.swift
+      - path: Sources/Dictari/Vocabulary/VocabularyCorrector.swift
+      - path: Sources/Dictari/Vocabulary/SoundClasses.swift
+      - path: Sources/Dictari/Vocabulary/PhoneticSimilarity.swift
+      - path: Sources/Dictari/Vocabulary/SpellingLexicon.swift
+      - path: Sources/Dictari/Vocabulary/VocabularySuggestions.swift
+      - path: Sources/Dictari/Vocabulary/VocabularyStore.swift
+      - path: Sources/Dictari/Vocabulary/CorrectionDiff.swift
+      - path: Sources/Dictari/Injection/TextInjector.swift
+      - path: Sources/Dictari/Injection/FocusInspector.swift
+      - path: Sources/Dictari/Injection/LiveTyper.swift
+      - path: Sources/Dictari/Hotkey/HotkeyManager.swift
+      - path: Sources/Dictari/Hotkey/ModifierTapGesture.swift
+      - path: Sources/Dictari/Audio/AudioCaptureEngine.swift
+      - path: Sources/Dictari/Audio/AudioRouteChangePolicy.swift
+      - path: Sources/Dictari/Agents/AgentProposalStore.swift
+      - path: Sources/Dictari/Agents/LocalMCPServer.swift
+    dependencies:
+      - package: WhisperKit
+      - package: FluidAudio
+      - package: SwiftTransformers
+        product: Hub
+      - package: SwiftTransformers
+        product: Tokenizers
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        # The capture test opens the real microphone; without this the process is killed.
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Dictari's tests verify that microphone capture returns real audio."
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+schemes:
+  Dictari:
+    build:
+      targets:
+        Dictari: all
+        DictariTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: false
+      targets:
+        - DictariTests

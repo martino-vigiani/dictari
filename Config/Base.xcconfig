@@ -1,0 +1,11 @@
+// Base.xcconfig
+// Dictari — tracked build defaults shared by every target (wired in project.yml `configFiles`).
+//
+// Code signing defaults to ad-hoc ("-") so a fresh clone builds without anyone's certificate.
+// To sign with your own identity, copy Local.xcconfig.example to Local.xcconfig (untracked)
+// at the repository root and set DICTARI_SIGN_IDENTITY there. Keeping one identity across
+// rebuilds matters: macOS keys the Accessibility and Microphone grants on it.
+
+DICTARI_SIGN_IDENTITY = -
+
+#include? "../Local.xcconfig"

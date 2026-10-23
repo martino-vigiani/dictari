@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Dictari</string>
+	<key>CFBundleDisplayName</key>
+	<string>Dictari</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Dictari transcribes your voice entirely on this Mac. Audio never leaves your device.</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 Martino Vigiani. MIT License.</string>
+
+	<!-- Sparkle 2.x auto-update feed. Signed release artifacts and the appcast live in the
+	     martino-vigiani/dictari-updates repository, separate from the source repository. -->
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/martino-vigiani/dictari-updates/main/appcast.xml</string>
+	<!-- Public half of the EdDSA key that signs every update archive. -->
+	<key>SUPublicEDKey</key>
+	<string>wBx4aOh1apBscpwrC8k+6ZfMwuOh6JzHUUlVJ8R+3ZU=</string>
+</dict>
+</plist>

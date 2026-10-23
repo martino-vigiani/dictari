@@ -1,0 +1,7 @@
+// Local.xcconfig — personal build settings, never committed (listed in .gitignore).
+// Copy this file to Local.xcconfig at the repository root, then run `xcodegen generate`.
+//
+// The identity Xcode signs the Dictari app with. Leave it unset to sign ad-hoc ("-").
+// Use the same identity on every build: macOS ties Accessibility and Microphone grants to it.
+
+DICTARI_SIGN_IDENTITY = Developer ID Application: Your Name (TEAMID)

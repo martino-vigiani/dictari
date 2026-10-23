@@ -1,0 +1,17 @@
+.DS_Store
+*.xcodeproj/
+DerivedData/
+build/
+.build/
+.claude/worktrees/
+
+# Local research notes and reports (deep research, model comparisons)
+reports/
+research_notes/
+
+# Local/private material
+__pycache__/
+.subralabs/
+*.dmg
+Local.xcconfig
+.env*
