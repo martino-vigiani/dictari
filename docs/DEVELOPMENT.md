@@ -1,13 +1,15 @@
-# AGENTS.md
+# Development guide
 
-This file provides guidance to AI coding agents (Claude Code, Codex, …) when working with code in this repository.
+How Dictari is built, tested and put together, and the rules that keep it fast and safe.
+Read the relevant section before changing behaviour. [CONTRIBUTING.md](../CONTRIBUTING.md) has the
+short version.
 
 ## What this is
 
 Dictari is a local-first macOS menu-bar dictation app (macOS 26+, Apple Silicon, Swift 6 with
 `SWIFT_STRICT_CONCURRENCY: complete`). Hotkey → microphone capture → on-device transcription →
 text injected into the frontmost app. No network except model downloads and update checks.
-`REQUIREMENTS.md` is the full product spec (vision, latency budget, UI anatomy) — read the relevant
+[`REQUIREMENTS.md`](../REQUIREMENTS.md) is the full product spec (vision, latency budget, UI anatomy) — read the relevant
 section before changing behaviour that it specifies.
 
 ## Build & run
@@ -43,6 +45,7 @@ Reach settings without the menu bar: `DICTARI_OPEN_SETTINGS=1 open -a Dictari` (
 ## Tests
 
 ```bash
+./scripts/ci-tests.sh         # the deterministic suite CI runs: no models, no mic, ~2 minutes
 xcodebuild -project Dictari.xcodeproj -scheme Dictari -destination 'platform=macOS,arch=arm64' test
 # single class / single test
 xcodebuild ... test -only-testing:DictariTests/TranscriptionEngineTests

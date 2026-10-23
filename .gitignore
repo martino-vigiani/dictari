@@ -15,3 +15,7 @@ __pycache__/
 *.dmg
 Local.xcconfig
 .env*
+
+# Local instructions for AI coding agents; the shared guide is docs/DEVELOPMENT.md
+AGENTS.md
+CLAUDE.md

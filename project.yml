@@ -15,7 +15,8 @@ settings:
     MARKETING_VERSION: "1.1.0"
     CURRENT_PROJECT_VERSION: "31"
     PRODUCT_BUNDLE_IDENTIFIER: com.subralabs.Dictari
-    ENABLE_HARDENED_RUNTIME: YES
+    # Off for ad-hoc builds (see Config/Base.xcconfig); on with a real identity.
+    ENABLE_HARDENED_RUNTIME: "$(DICTARI_HARDENED_RUNTIME)"
     SWIFT_STRICT_CONCURRENCY: complete
     DEAD_CODE_STRIPPING: YES
     # UI text lives in Resources/Localizable.xcstrings; scripts/sync-strings.sh refreshes it
@@ -75,7 +76,7 @@ targets:
         CODE_SIGN_IDENTITY: "$(DICTARI_SIGN_IDENTITY)"
         CODE_SIGN_STYLE: Manual
         CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
-        OTHER_CODE_SIGN_FLAGS: "--options=runtime"
+        OTHER_CODE_SIGN_FLAGS: "$(DICTARI_CODE_SIGN_FLAGS)"
   # Host-less on purpose. Dictari is an LSUIElement menu-bar app with no window, and
   # XCTest could not attach to it as a test host ("the test runner hung before establishing
   # connection"). Instead the bundle compiles the logic sources directly, so tests run in the

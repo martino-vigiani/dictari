@@ -1,4 +1,4 @@
-name: Build
+name: Build and test
 
 on:
   push:
@@ -33,5 +33,7 @@ jobs:
             -configuration Debug -destination 'platform=macOS,arch=arm64' \
             build CODE_SIGNING_ALLOWED=NO
 
-      # No test step on purpose: the transcription tests download and run real
-      # speech models, which is too slow for every push. Run them locally.
+      # The deterministic suite only: no speech models, no microphone, no synthetic input.
+      # Transcription, streaming and benchmark tests need real models and run locally.
+      - name: Test
+        run: ./scripts/ci-tests.sh

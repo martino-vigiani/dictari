@@ -3,8 +3,8 @@
 Thanks for helping. Bug reports, fixes and small focused features are all welcome. For anything
 big, open an issue first so we can agree on the approach before you spend time on it.
 
-Architecture and engineering rules live in [AGENTS.md](AGENTS.md). Read it before you change
-behavior. It is written for AI coding agents, but it is the same document humans should use.
+Architecture and engineering rules live in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Read it
+before you change behavior.
 The product spec and latency budget are in [REQUIREMENTS.md](REQUIREMENTS.md).
 
 ## Warning: Dictari types and pastes for real
@@ -34,24 +34,37 @@ after every rebuild.
 ## Tests
 
 ```sh
-xcodebuild -project Dictari.xcodeproj -scheme Dictari -destination 'platform=macOS,arch=arm64' test
-# one class
-xcodebuild ... test -only-testing:DictariTests/TranscriptionEngineTests
+./scripts/ci-tests.sh
+```
+
+That is the suite CI runs on every push and pull request: about 660 deterministic tests in 49
+classes, done in a couple of minutes. They download no model, open no microphone and post no
+keyboard events. Run it before you open a pull request.
+
+Everything else runs locally only, because it needs real speech models or a microphone:
+transcription and streaming (`TranscriptionEngineTests`, `StreamingTranscriptionTests`,
+`BackgroundTranscriptionRuntimeTests`, …), audio capture, and the latency and ASR quality
+benchmarks. Run the class you touched:
+
+```sh
+xcodebuild -project Dictari.xcodeproj -scheme Dictari -destination 'platform=macOS,arch=arm64' \
+  test -only-testing:DictariTests/TranscriptionEngineTests
 ```
 
 - The test target is host-less. It compiles a hand-picked list of files from `Sources/` (listed
   in `project.yml`), so a new file is only testable after you add it to the `DictariTests` sources.
 - Tests use real audio, not mocks. `Tests/AudioFixture.swift` makes speech with `/usr/bin/say`.
-- Transcription tests download and run a real model, so they are slow. Run the class you touched,
-  not the whole suite, while you work.
+- The first run of a transcription test downloads the model, so it is slow.
 - Microphone tests skip themselves when the harness has no permission.
+- A new test class that needs no model or microphone belongs in `scripts/ci-tests.sh`.
 
 ## Localization
 
 The UI ships in eight languages: English (source), Italian, German, French, Spanish, Portuguese,
 Russian and Ukrainian. If you change UI text, run `./scripts/sync-strings.sh` to add the new keys
 to `Resources/Localizable.xcstrings`, then add the seven translations. Only string literals that
-reach the compiler as localizable are translated, see the Localization section of AGENTS.md.
+reach the compiler as localizable are translated, see the Localization section of
+[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## Design
 

@@ -5,3 +5,7 @@
 // Use the same identity on every build: macOS ties Accessibility and Microphone grants to it.
 
 DICTARI_SIGN_IDENTITY = Developer ID Application: Your Name (TEAMID)
+
+// With a real identity, sign Xcode builds with the hardened runtime too, like releases.
+DICTARI_HARDENED_RUNTIME = YES
+DICTARI_CODE_SIGN_FLAGS = --options=runtime

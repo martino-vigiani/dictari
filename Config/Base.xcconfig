@@ -8,4 +8,10 @@
 
 DICTARI_SIGN_IDENTITY = -
 
+// Hardened runtime only with a real identity. Under it, library validation makes dyld refuse
+// Xcode's ad-hoc signed Dictari.debug.dylib ("different Team IDs") and a Debug build won't start.
+// release.sh and build-run.sh sign with --options runtime themselves, so releases keep it.
+DICTARI_HARDENED_RUNTIME = NO
+DICTARI_CODE_SIGN_FLAGS =
+
 #include? "../Local.xcconfig"

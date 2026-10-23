@@ -5,7 +5,9 @@ Talk instead of type. Free, open-source dictation for Mac that runs entirely on 
 [![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
 [![macOS 26+](https://img.shields.io/badge/macOS-26%2B-black.svg)](#install)
 
-<!-- screenshot -->
+<p align="center">
+  <img src="docs/images/history.png" alt="Dictari history: everything you dictated, kept on your Mac" width="720">
+</p>
 
 **[⬇ Download Dictari for Mac](https://github.com/martino-vigiani/dictari/releases/latest/download/Dictari.dmg)**
 
@@ -43,6 +45,11 @@ You can change the shortcut, or switch to push-to-talk (hold to record), in Sett
 - A local MCP server, so AI agents such as Claude Code, Codex or Cursor can read your transcripts. Off by default.
 - Per-app writing rules, spoken formatting and optional clean-up with Apple Intelligence.
 
+<p align="center">
+  <img src="docs/images/dictation.png" alt="Dictation settings: shortcut, mode, conversation mode" width="360">
+  <img src="docs/images/vocabulary.png" alt="Vocabulary: names and jargon Dictari corrects" width="360">
+</p>
+
 ## Privacy
 
 Your audio never leaves your Mac. Transcription, history and vocabulary all stay local.
@@ -70,7 +77,7 @@ xcodebuild -project Dictari.xcodeproj -scheme Dictari -configuration Debug \
 An unsigned or ad-hoc build makes macOS ask for Microphone and Accessibility again after each rebuild.
 To sign with your own identity, copy `Local.xcconfig.example` to `Local.xcconfig` and fill it in.
 
-Want to help? See [CONTRIBUTING.md](CONTRIBUTING.md).
+Want to help? See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## License
 
