@@ -63,8 +63,8 @@ run the real model, so they are slow. Microphone capture tests skip in the harne
 
 For the end-to-end chain the harness can't cover (mic → tap → resampler → model → transcript), run
 the in-app self test, which replaces normal startup and exits with a status code. **It posts real
-keystrokes and pastes into whatever app has focus: do not run it, or launch the app, on a machine
-where someone is typing.**
+keystrokes and pastes into whatever app has focus: do not run it, or launch the app, while the
+owner is using the Mac (or anyone is typing on it).**
 
 ```bash
 DICTARI_SELFTEST=1 ~/Library/Developer/Xcode/DerivedData/Dictari-*/Build/Products/Debug/Dictari.app/Contents/MacOS/Dictari
