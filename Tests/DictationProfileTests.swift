@@ -7,6 +7,8 @@ final class DictationProfileTests: XCTestCase {
         settings.selectedDictationProfile = "code"
         settings.profileLanguages = ["code": "en"]
         settings.applicationLanguages = ["com.example.editor": "it", "com.example.chat": "auto"]
+        // Pinned, so "auto" stays auto on a Mac set up with a single language.
+        settings.spokenLanguages = ["en", "de", "it"]
         XCTAssertEqual(settings.dictationPreferences(for: "com.example.editor").language, "it")
         XCTAssertEqual(settings.dictationPreferences(for: "com.example.chat").language, "auto")
         XCTAssertEqual(settings.dictationPreferences(for: "unknown").language, "en")

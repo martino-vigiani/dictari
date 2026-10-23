@@ -23,6 +23,9 @@ final class CustomDictationProfileTests: XCTestCase {
         settings.customDictationProfiles = [profile]
         settings.selectedDictationProfile = profile.id
         settings.defaultLanguage = "de"
+        // Pinned: left unset, the spoken set follows the Mac's languages, and on a machine with
+        // only one of them "auto" resolves to that language.
+        settings.spokenLanguages = ["en", "de", "it"]
         return settings
     }
 
