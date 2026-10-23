@@ -13,12 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # The Liquid Glass app icon needs the newest actool; older Xcode crashes compiling it.
-      - name: Select the newest Xcode
+      # Hosted runners top out at Xcode 26.x, whose actool crashes on the Liquid Glass
+      # AppIcon.icon (made with a newer Icon Composer). CI only checks that the code compiles,
+      # so it drops that resource and falls back to the classic AppIcon.appiconset.
+      - name: Skip the Liquid Glass icon
         run: |
-          ls -d /Applications/Xcode*.app
-          sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)"
-          xcodebuild -version
+          perl -0pi -e 's/      - path: Sources\/Dictari\/Resources\/AppIcon\.icon\n        type: file\n        buildPhase: resources\n//' project.yml
+          ! grep -q 'path: Sources/Dictari/Resources/AppIcon.icon' project.yml
 
       - name: Install XcodeGen
         run: brew install xcodegen
