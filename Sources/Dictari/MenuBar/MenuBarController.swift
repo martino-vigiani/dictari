@@ -63,7 +63,7 @@ final class MenuBarController {
             _ = coordinator.state
             _ = coordinator.modelState
             _ = coordinator.permissions
-            _ = coordinator.hotkeyArmed
+            _ = coordinator.hotkeyAttention
             _ = coordinator.settings.data
             _ = coordinator.lastTranscript
             _ = coordinator.history.entries
@@ -123,7 +123,7 @@ final class MenuBarController {
             model: coordinator.modelState,
             hasAccessibility: coordinator.permissions.accessibility,
             hasMicrophone: coordinator.permissions.microphone,
-            hotkeyArmed: coordinator.hotkeyArmed
+            hotkeyUnavailability: coordinator.hotkeyAttention
         )
     }
 

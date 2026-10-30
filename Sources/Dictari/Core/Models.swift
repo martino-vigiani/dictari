@@ -551,7 +551,7 @@ enum AppAttentionReason {
         model: ModelState,
         hasAccessibility: Bool,
         hasMicrophone: Bool,
-        hotkeyArmed: Bool
+        hotkeyUnavailability: HotkeyUnavailability?
     ) -> String? {
         if case .failed(let reason) = model { return reason }
         // Same keys as `PermissionIssue.title` (not compiled into the host-less test target).
@@ -561,10 +561,40 @@ enum AppAttentionReason {
         if !hasMicrophone {
             return String(localized: "Microphone access needed", comment: "Permission status: Microphone is not granted")
         }
-        if !hotkeyArmed {
+        switch hotkeyUnavailability {
+        case nil:
+            return nil
+        case .secureInput(let owner?):
+            return String(localized: "Shortcut paused: \(owner) is using secure keyboard entry", comment: "Status: macOS blocks the global shortcut while another app protects typing (password field, password manager, Terminal's Secure Keyboard Entry); the argument is that app's name")
+        case .secureInput(nil):
+            return String(localized: "Shortcut paused: another app is using secure keyboard entry", comment: "Status: macOS blocks the global shortcut while another app protects typing (password field, password manager, Terminal's Secure Keyboard Entry)")
+        case .other:
             return String(localized: "Shortcut not active", comment: "Status: the global dictation shortcut is not armed")
         }
-        return nil
+    }
+}
+
+/// Why the global shortcut cannot receive events. Only Secure Event Input has a cause the user
+/// can act on: macOS withholds every keystroke from event taps until the app holding it lets go.
+enum HotkeyUnavailability: Equatable, Sendable {
+    /// Another process holds Secure Event Input; `owner` is the name worth showing, if any.
+    case secureInput(owner: String?)
+    case other
+
+    /// The name to show for the process holding Secure Event Input, or nil when naming it would
+    /// not help. The login window holds it while the screen is locked, which ends on unlock.
+    /// Some apps carry invisible characters in their display name (WhatsApp did in the logs).
+    static func secureInputOwnerName(_ processName: String?) -> String? {
+        guard let processName else { return nil }
+        let scalars = processName.unicodeScalars.filter {
+            switch $0.properties.generalCategory {
+            case .control, .format: return false
+            default: return true
+            }
+        }
+        let visible = String(String.UnicodeScalarView(scalars)).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !visible.isEmpty, visible != "loginwindow" else { return nil }
+        return visible
     }
 }
 

@@ -84,8 +84,11 @@ final class HotkeyManager {
 
     /// Reflects whether the shortcut can currently receive events. Secure Event Input is a
     /// legitimate unavailable state: Dictari reports it and waits rather than trying to bypass it.
-    var onAvailabilityChanged: ((Bool) -> Void)?
-    private(set) var isAvailable = false
+    /// Fired with nil when the shortcut becomes available, and again whenever the reason changes
+    /// (another app takes over Secure Event Input) while it stays unavailable.
+    var onAvailabilityChanged: ((HotkeyUnavailability?) -> Void)?
+    private(set) var unavailability: HotkeyUnavailability? = .other
+    var isAvailable: Bool { unavailability == nil }
 
     init() {
         self.dictationShortcut = .defaultDictation
@@ -519,30 +522,52 @@ final class HotkeyManager {
     }
 
     private func setAvailability(_ available: Bool) {
-        guard available != isAvailable else { return }
-        isAvailable = available
+        // Secure Event Input is checked on every unavailable tick, not only on the transition:
+        // it can start, or pass to another app, while the shortcut is already unavailable.
+        let secureInputPID = !available && IsSecureEventInputEnabled() ? Self.secureInputPID() : nil
+        let reason: HotkeyUnavailability?
+        if available {
+            reason = nil
+        } else if let secureInputPID {
+            reason = .secureInput(owner: HotkeyUnavailability.secureInputOwnerName(secureInputOwnerName(pid: secureInputPID)))
+        } else {
+            reason = .other
+        }
+        guard reason != unavailability else { return }
+        unavailability = reason
         // 9 Oct 2026: the shortcut stayed dead for seven hours and nothing on disk said why.
         // Record every transition at notice level (persisted) with the Secure Event Input owner,
         // the usual culprit, so the next report can name the app instead of guessing.
         if available {
             Self.log.notice("hotkey available")
-        } else if IsSecureEventInputEnabled() {
-            Self.log.notice("hotkey unavailable: secure input held by \(Self.secureInputOwner(), privacy: .public)")
+        } else if let secureInputPID {
+            let owner = secureInputPID > 0 ? "\(secureInputOwnerName(pid: secureInputPID) ?? "pid") (\(secureInputPID))" : "unknown"
+            Self.log.notice("hotkey unavailable: secure input held by \(owner, privacy: .public)")
         } else {
             let tap = eventTap
             Self.log.notice("hotkey unavailable: tap=\(tap != nil) enabled=\(tap.map { CGEvent.tapIsEnabled(tap: $0) } ?? false) runLoop=\(self.tapThread?.isRunning ?? false)")
         }
-        onAvailabilityChanged?(available)
+        onAvailabilityChanged?(reason)
     }
 
-    /// Name and pid of the process holding Secure Event Input, from the session dictionary.
-    private static func secureInputOwner() -> String {
+    /// Pid of the process holding Secure Event Input, from the session dictionary; 0 when the
+    /// dictionary does not say. Only called while `IsSecureEventInputEnabled()` is true.
+    private static func secureInputPID() -> pid_t {
         guard let session = CGSessionCopyCurrentDictionary() as? [String: Any],
               let pid = (session["kCGSSessionSecureInputPID"] as? NSNumber)?.int32Value,
               pid > 0
-        else { return "unknown" }
-        let name = NSRunningApplication(processIdentifier: pid)?.localizedName ?? "pid"
-        return "\(name) (\(pid))"
+        else { return 0 }
+        return pid
+    }
+
+    /// The watchdog asks every second while Secure Event Input lasts, often for hours: resolve
+    /// the name through LaunchServices only when the pid changes.
+    private func secureInputOwnerName(pid: pid_t) -> String? {
+        guard pid > 0 else { return nil }
+        if let cached = secureInputOwnerCache, cached.pid == pid { return cached.name }
+        let name = NSRunningApplication(processIdentifier: pid)?.localizedName
+        secureInputOwnerCache = (pid, name)
+        return name
     }
 
     private func startDiagnosticsReporting() {
@@ -593,6 +618,7 @@ final class HotkeyManager {
     /// storing the task cannot keep the manager alive after app shutdown.
     private var watchdogTask: Task<Void, Never>?
     private var wasSecureInputActive = false
+    private var secureInputOwnerCache: (pid: pid_t, name: String?)?
     /// Periodic latency log, only alive under `DICTARI_TAPSTATS=1`.
     private var diagnosticsTask: Task<Void, Never>?
     /// App Nap opt-out, held for exactly as long as the tap is installed.

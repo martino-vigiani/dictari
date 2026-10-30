@@ -25,6 +25,13 @@ final class AppCoordinator {
     private(set) var permissions = PermissionStatus.current()
     /// True once the global hotkey is actually armed.
     private(set) var hotkeyArmed = false
+    /// The reason `HotkeyManager` last reported for being unavailable.
+    private(set) var hotkeyUnavailability: HotkeyUnavailability? = .other
+    /// What the status should say about the shortcut: nothing while it is armed, otherwise the
+    /// manager's reason, so Secure Event Input names the app to close instead of a generic label.
+    var hotkeyAttention: HotkeyUnavailability? {
+        hotkeyArmed ? nil : hotkeyUnavailability ?? .other
+    }
     /// Registration failures are actionable configuration errors, not permission failures.
     private(set) var hotkeyIssue: String?
     /// Loudness of the most recent dictation, shown in Settings so the proximity filter can
@@ -429,7 +436,9 @@ final class AppCoordinator {
         guard !isTerminating else { return }
         do {
             try hotkey.start()
-            hotkeyArmed = true
+            // Not `true`: under Secure Event Input `start()` returns without arming the tap.
+            hotkeyArmed = hotkey.isAvailable
+            hotkeyUnavailability = hotkey.unavailability
             hotkeyIssue = nil
         } catch {
             hotkeyArmed = false
@@ -442,7 +451,8 @@ final class AppCoordinator {
                 guard let self, !self.isTerminating else { return }
                 do {
                     try self.hotkey.start()
-                    self.hotkeyArmed = true
+                    self.hotkeyArmed = self.hotkey.isAvailable
+                    self.hotkeyUnavailability = self.hotkey.unavailability
                     self.hotkeyIssue = nil
                 } catch {
                     self.hotkeyArmed = false
@@ -922,8 +932,12 @@ final class AppCoordinator {
     }
 
     private func wireHotkey() {
-        hotkey.onAvailabilityChanged = { [weak self] available in
+        hotkey.onAvailabilityChanged = { [weak self] unavailability in
             guard let self else { return }
+            self.hotkeyUnavailability = unavailability
+            let available = unavailability == nil
+            // A new Secure Event Input owner changes only the status text, not the pill.
+            guard available != self.hotkeyArmed else { return }
             self.hotkeyArmed = available
             guard !self.isTerminating else { return }
             if PillPresentationPolicy.shouldShow(

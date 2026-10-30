@@ -147,7 +147,7 @@ final class AppFeedbackPresentationTests: XCTestCase {
                 model: .failed("Finishing cancelled transcription"),
                 hasAccessibility: true,
                 hasMicrophone: true,
-                hotkeyArmed: true
+                hotkeyUnavailability: nil
             ),
             "Finishing cancelled transcription"
         )
@@ -159,7 +159,7 @@ final class AppFeedbackPresentationTests: XCTestCase {
                 model: .ready,
                 hasAccessibility: false,
                 hasMicrophone: false,
-                hotkeyArmed: false
+                hotkeyUnavailability: .other
             ),
             "Accessibility access needed"
         )
@@ -168,7 +168,7 @@ final class AppFeedbackPresentationTests: XCTestCase {
                 model: .ready,
                 hasAccessibility: true,
                 hasMicrophone: false,
-                hotkeyArmed: false
+                hotkeyUnavailability: .other
             ),
             "Microphone access needed"
         )
@@ -177,10 +177,39 @@ final class AppFeedbackPresentationTests: XCTestCase {
                 model: .ready,
                 hasAccessibility: true,
                 hasMicrophone: true,
-                hotkeyArmed: false
+                hotkeyUnavailability: .other
             ),
             "Shortcut not active"
         )
+    }
+
+    func testSecureInputNamesTheAppHoldingIt() {
+        func reason(_ unavailability: HotkeyUnavailability?) -> String? {
+            AppAttentionReason.resolve(
+                model: .ready,
+                hasAccessibility: true,
+                hasMicrophone: true,
+                hotkeyUnavailability: unavailability
+            )
+        }
+        XCTAssertNil(reason(nil))
+        XCTAssertEqual(
+            reason(.secureInput(owner: "Passwords")),
+            "Shortcut paused: Passwords is using secure keyboard entry"
+        )
+        XCTAssertEqual(
+            reason(.secureInput(owner: nil)),
+            "Shortcut paused: another app is using secure keyboard entry"
+        )
+    }
+
+    func testSecureInputOwnerNameDropsWhatWouldNotHelp() {
+        XCTAssertEqual(HotkeyUnavailability.secureInputOwnerName("Strongbox"), "Strongbox")
+        XCTAssertEqual(HotkeyUnavailability.secureInputOwnerName("\u{200E}\u{0E}WhatsApp "), "WhatsApp")
+        // Held by the login window while the screen is locked: gone again on unlock.
+        XCTAssertNil(HotkeyUnavailability.secureInputOwnerName("loginwindow"))
+        XCTAssertNil(HotkeyUnavailability.secureInputOwnerName("\u{200E}"))
+        XCTAssertNil(HotkeyUnavailability.secureInputOwnerName(nil))
     }
 
     func testListeningActionStopsRecording() {

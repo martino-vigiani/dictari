@@ -659,17 +659,6 @@
       },
       "shouldTranslate" : false
     },
-    "%@, %@, %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@, %2$@, %3$@"
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
     "%@, %@. %@" : {
       "comment" : "Accessibility: phrase, occurrence count, sentence it came from",
       "localizations" : {
@@ -1181,16 +1170,16 @@
         "fr" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%1$lld téléchargé · %2$@ sur le disque"
-                }
-              },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%1$lld téléchargés · %2$@ sur le disque"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$lld téléchargé · %2$@ sur le disque"
                 }
               },
               "other" : {
@@ -27280,7 +27269,7 @@
       }
     },
     "Monthly" : {
-      "comment" : "Chart bucket size\nStore plan name",
+      "comment" : "Chart bucket size",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -37884,6 +37873,100 @@
         }
       }
     },
+    "Shortcut paused: %@ is using secure keyboard entry" : {
+      "comment" : "Status: macOS blocks the global shortcut while another app protects typing (password field, password manager, Terminal's Secure Keyboard Entry); the argument is that app's name",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl pausiert: %@ nutzt die sichere Tastatureingabe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo en pausa: %@ está usando la entrada segura de teclado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci en pause : %@ utilise l’entrée au clavier sécurisée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scorciatoia in pausa: %@ usa l’inserimento sicuro da tastiera"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atalho em pausa: %@ está usando a entrada segura do teclado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сочетание клавиш приостановлено: %@ использует безопасный ввод с клавиатуры"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорочення призупинено: %@ використовує безпечне введення з клавіатури"
+          }
+        }
+      }
+    },
+    "Shortcut paused: another app is using secure keyboard entry" : {
+      "comment" : "Status: macOS blocks the global shortcut while another app protects typing (password field, password manager, Terminal's Secure Keyboard Entry)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurzbefehl pausiert: Eine andere App nutzt die sichere Tastatureingabe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajo en pausa: otra app está usando la entrada segura de teclado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourci en pause : une autre app utilise l’entrée au clavier sécurisée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scorciatoia in pausa: un’altra app usa l’inserimento sicuro da tastiera"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atalho em pausa: outro app está usando a entrada segura do teclado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сочетание клавиш приостановлено: другое приложение использует безопасный ввод с клавиатуры"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорочення призупинено: інша програма використовує безпечне введення з клавіатури"
+          }
+        }
+      }
+    },
     "Shortcut, languages and how text is written into your apps." : {
       "localizations" : {
         "de" : {
@@ -44985,6 +45068,7 @@
       }
     },
     "Updates" : {
+      "comment" : "Settings page name: app updates",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -50615,22 +50699,22 @@
       "comment" : "Name of the space bar on a shortcut keycap; use the name printed on Mac keyboards",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leertaste"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Space"
           }
         },
-        "it" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spazio"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leertaste"
+            "value" : "Espacio"
           }
         },
         "fr" : {
@@ -50639,10 +50723,10 @@
             "value" : "Espace"
           }
         },
-        "es" : {
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espacio"
+            "value" : "Spazio"
           }
         },
         "pt" : {
